@@ -397,11 +397,14 @@ export default function Home() {
 
       {/* ──── Testimonials ──── */}
       <section className="testimonials-section section-alt" id="testimonials" style={{ paddingTop: "80px" }}>
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: "80px" }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginBottom: "80px" }}>
+          <h3 style={{ fontSize: "0.85rem", textTransform: "uppercase", letterSpacing: "0.15em", color: "var(--text-tertiary)", marginBottom: "20px", fontWeight: 600, fontFamily: "var(--font-secondary)" }}>
+            As seen on
+          </h3>
           <img 
-            src="/juris-review-logo.png?v=2" 
-            alt="As seen on Juris Review" 
-            style={{ height: "64px", width: "auto", opacity: 0.6, filter: "grayscale(100%)", transition: "all 0.3s ease" }}
+            src="/juris-review-logo.png?v=3" 
+            alt="Juris Review" 
+            style={{ height: "160px", width: "auto", opacity: 0.6, filter: "grayscale(100%)", transition: "all 0.3s ease" }}
             onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.95"; e.currentTarget.style.filter = "none"; }}
             onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.6"; e.currentTarget.style.filter = "grayscale(100%)"; }}
           />

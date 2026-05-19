@@ -188,6 +188,7 @@ button {
   position: relative;
   overflow: hidden;
   color: white;
+  z-index: 0;
 }
 
 .footer-cta-bg {
@@ -784,6 +785,7 @@ button {
   color: white;
   position: relative;
   overflow: hidden;
+  z-index: 0;
 }
 
 .footer-cta-content {

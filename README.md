@@ -1,61 +1,60 @@
 # Open Specter
 
-Open Specter is an enterprise-grade AI workspace for legal teams. It helps professionals organize matters, upload and review documents, run assistant conversations, create tabular reviews, and reuse structured workflows — all with a restrained, grayscale interface designed for white-collar professional use.
+Open Specter is an open-source AI workspace for legal teams. Organize matters, review documents, run AI conversations, build tabular reviews, and automate repetitive legal workflows.
 
 <img width="1071" height="600" alt="Frame 4" src="https://github.com/user-attachments/assets/a3e9d6ec-e43d-4473-8f6d-243c22a1fce0" />
-
 
 Maintained by **Quantera.ai**.
 
 ---
 
-## What it does
+## Features
 
-- **Projects** — organize documents by matter, client, or workflow.
-- **Document management** — upload files, store versions, and prepare documents for AI-assisted review.
-- **Assistant chat** — ask questions, summarize, draft, and reason over selected context.
-- **Tabular reviews** — extract structured answers from document sets into review tables.
-- **Workflows** — save reusable prompts and tabular-review templates.
-- **Recent activity** — surface the latest chats, tabular reviews, and workflow usage.
-- **Keyboard shortcuts** — navigate quickly with a command-style shortcut sheet.
-- **Voice input** — use browser speech-to-text in the assistant prompt where supported.
+- **Projects** — Organize documents by matter, client, or workflow.
+- **Document Management** — File uploads, versioning, and document parsing for AI review.
+- **Assistant Chat** — Question answering, summarization, drafting, and citations over selected context.
+- **Tabular Reviews** — Extract structured data across document batches into review tables.
+- **Workflows** — Reusable prompt chains and tabular review templates.
+- **Recent Activity** — Timeline of recent chats, reviews, and workflow runs.
+- **Keyboard Shortcuts** — Command-style navigation and quick actions.
+- **Voice Input** — Browser-native speech-to-text for assistant prompts.
 
 ---
 
-## Tech stack
+## Tech Stack
 
 | Layer | Technology |
 | --- | --- |
 | Frontend | Next.js 16, React 19, TypeScript, Tailwind CSS |
-| UI | Radix primitives, Motion.dev, Lucide icons |
+| UI | Radix Primitives, Motion.dev, Lucide Icons |
 | Backend | Express + TypeScript |
-| Database/Auth | Supabase Auth + Postgres |
-| Storage | Cloudflare R2 / S3-compatible storage, with local fallback for development |
+| Database & Auth | Supabase (PostgreSQL + Row Level Security) |
+| Storage | Cloudflare R2 / S3-compatible (with local disk fallback for dev) |
 | AI Providers | Gemini, Anthropic, OpenRouter-compatible models |
-| Legal research | [LegalDataHunter](https://legaldatahunter.com) (case law & legislation across 178 jurisdictions) and/or [Vaquill](https://www.vaquill.ai/legal-api) (AI Q&A across US primary law and Indian case law) |
-| Document tooling | LibreOffice for DOC/DOCX conversion |
+| Legal Research | [LegalDataHunter](https://legaldatahunter.com) (case law & statutes across 178 jurisdictions), [Vaquill](https://www.vaquill.ai/legal-api) (US primary law & Indian case law) |
+| Document Tooling | LibreOffice (DOC/DOCX conversion) |
 
 ---
 
-## Repository structure
+## Repository Structure
 
 ```txt
 .
 ├── backend/
 │   ├── migrations/
-│   │   ├── 000_one_shot_schema.sql       # Fresh database schema + RLS
-│   │   └── 001_rls_content_tables.sql    # Incremental RLS migration
+│   │   ├── 000_one_shot_schema.sql       # Initial database schema and RLS policies
+│   │   └── 001_rls_content_tables.sql    # Incremental RLS updates
 │   └── src/
-│       ├── routes/                       # API routers
-│       ├── lib/                          # Supabase, storage, AI/document helpers
-│       └── index.ts                      # Express entry point
+│       ├── routes/                       # API routes
+│       ├── lib/                          # Supabase, storage, AI, and document helpers
+│       └── index.ts                      # Server entry point
 ├── frontend/
 │   ├── public/                           # Static assets
 │   └── src/
 │       ├── app/                          # Next.js App Router pages
 │       ├── components/                   # Shared UI and product components
-│       ├── contexts/                     # Auth/profile/app state
-│       └── lib/                          # Browser/API clients
+│       ├── contexts/                     # State and auth providers
+│       └── lib/                          # API and browser utilities
 └── README.md
 ```
 
@@ -65,26 +64,22 @@ Maintained by **Quantera.ai**.
 
 - Node.js 20+
 - Yarn 1.x
-- Supabase project
-- Optional but recommended for production:
-  - Cloudflare R2 or S3-compatible storage
-  - LibreOffice installed on the backend host
-  - AI provider keys for the models you want to enable
-
-> Note: some dependencies may warn about newer Node engines. The current build has been validated in the provided environment with Node 20.
+- Supabase account & project
+- *(Optional)* Cloudflare R2 or S3-compatible storage
+- *(Optional)* LibreOffice on the host system for DOCX conversion
 
 ---
 
-## Environment variables
+## Configuration
 
-Create env files from the examples:
+Copy the example environment files:
 
 ```bash
 cp backend/.env.example backend/.env
 cp frontend/.env.local.example frontend/.env.local
 ```
 
-### Backend
+### Backend (`backend/.env`)
 
 ```env
 PORT=3001
@@ -93,38 +88,24 @@ FRONTEND_URL=http://localhost:3000
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_SECRET_KEY=your-supabase-service-role-key
 
-# Optional in local/dev. If omitted, local disk fallback is used.
+# Storage (optional for local development; defaults to local disk)
 R2_ENDPOINT_URL=https://your-account-id.r2.cloudflarestorage.com
 R2_ACCESS_KEY_ID=your-r2-access-key
 R2_SECRET_ACCESS_KEY=your-r2-secret-key
 R2_BUCKET_NAME=open-specter
 
-# Enable whichever providers you plan to use.
+# AI Providers (enable any combination)
 GEMINI_API_KEY=your-gemini-key
 ANTHROPIC_API_KEY=your-anthropic-key
 OPENROUTER_API_KEY=your-openrouter-key
 RESEND_API_KEY=your-resend-key
 
-# Legal-research providers. Set whichever one(s) you want to enable; both can
-# be enabled simultaneously. The frontend chooses which to call. If neither is
-# set, the Sources feature and inline legal-research citations are silently
-# disabled and the rest of the app keeps working.
-#
-# Each is a paid third-party API. You MUST use YOUR OWN key. Usage is billed
-# against the key holder's account; Open Specter ships no fallback.
-
-# LegalDataHunter: case law and legislation across 178 jurisdictions.
-# Sign up at https://legaldatahunter.com.
+# Legal Research Providers (optional; requires provider API keys)
 LEGAL_DATA_HUNTER_API_KEY=your-legaldatahunter-key
-
-# Vaquill: AI-grounded Q&A across US primary law (Constitution, USC, CFR,
-# Federal Rules, 50-state codes, Executive Orders since 2015) plus Indian
-# case law (31M+ judgments) and citation-graph traversal. Sign up at
-# https://www.vaquill.ai/legal-api. Key format: vq_key_...
 VAQUILL_API_KEY=vq_key_your_vaquill_key
 ```
 
-### Frontend
+### Frontend (`frontend/.env.local`)
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
@@ -134,223 +115,94 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:3001
 
 ---
 
-## Supabase setup: required first step
+## Database Setup
 
-A new Supabase project starts with **no application tables**. If the Table Editor says **“No tables in schema”**, the app cannot create projects or upload documents yet.
+Apply the schema and Row Level Security policies to your Supabase database:
 
-If the schema has not been applied, Supabase/PostgREST will return errors like:
+1. In your Supabase project, open the **SQL Editor**.
+2. Run [`backend/migrations/000_one_shot_schema.sql`](./backend/migrations/000_one_shot_schema.sql).
+3. Verify that the core tables (`projects`, `documents`, `chats`, `tabular_reviews`, `workflows`) appear in the Table Editor.
 
-```json
-{"detail":"Could not find the table 'public.projects' in the schema cache"}
-```
-
-That means the database is empty — not that project creation is broken.
-
-### Apply the schema in Supabase
-
-1. Open your Supabase project.
-2. Go to **SQL Editor**.
-3. Create a new query.
-4. Copy the contents of:
-
-   ```txt
-   backend/migrations/000_one_shot_schema.sql
-   ```
-
-5. Paste it into the SQL Editor.
-6. Click **Run**.
-7. Open **Table Editor** and confirm tables exist, including:
-   - `projects`
-   - `documents`
-   - `document_versions`
-   - `chats`
-   - `tabular_reviews`
-   - `workflows`
-   - `activity_events`
-
-The schema includes indexes, triggers, and Row Level Security policies for content tables.
-
-### If you already have tables
-
-For an existing database where only RLS needs to be added or refreshed, run:
-
-```txt
-backend/migrations/001_rls_content_tables.sql
-```
+> If updating an existing deployment where only RLS policies need refreshing, run [`backend/migrations/001_rls_content_tables.sql`](./backend/migrations/001_rls_content_tables.sql) instead.
 
 ---
 
-## Install
+## Getting Started
+
+### 1. Install dependencies
 
 ```bash
 yarn --cwd backend install
 yarn --cwd frontend install
 ```
 
-If your package manager enforces engine checks and a dependency warns about Node versions, use:
+*(If your environment flags Node version mismatches, append `--ignore-engines`)*.
 
-```bash
-yarn --cwd frontend install --ignore-engines
-yarn --cwd backend install --ignore-engines
-```
-
----
-
-## Run locally
+### 2. Run locally
 
 Start the backend:
-
 ```bash
 yarn --cwd backend dev
 ```
 
 Start the frontend:
-
 ```bash
 yarn --cwd frontend dev
 ```
 
-Open:
-
-```txt
-http://localhost:3000
-```
+The application will be accessible at [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## Build and verify
+## Verification
+
+Build both packages to ensure TypeScript compilation and dependencies pass:
 
 ```bash
 yarn --cwd backend build
 yarn --cwd frontend build
 ```
 
-Optional lint:
-
-```bash
-yarn --cwd frontend lint
-```
-
 Health check:
-
 ```bash
 curl http://localhost:3001/health
-```
-
-Expected response:
-
-```json
-{"ok":true}
+# {"ok":true}
 ```
 
 ---
 
-## Development notes
+## Keyboard Shortcuts
 
-### Storage
-
-If R2/S3 variables are configured, uploaded files are written to object storage.
-
-If they are not configured, Open Specter falls back to local disk storage for development:
-
-```txt
-/app/data/open-specter-storage
-```
-
-Use object storage for production deployments.
-
-### Row Level Security
-
-The schema enables RLS for content tables beyond user profiles. Access is based on:
-
-- resource ownership
-- project sharing via `shared_with`
-- workflow sharing via `workflow_shares`
-- parent-resource access for child rows such as document versions, chat messages, tabular cells, and activity events
-
-### Keyboard shortcuts
-
-Open the shortcuts sheet from the sidebar user menu or with:
-
-```txt
-Cmd/Ctrl + /
-```
-
-Common shortcuts:
+Press `Cmd/Ctrl + /` to open the shortcuts modal, or use:
 
 | Shortcut | Action |
 | --- | --- |
-| Cmd/Ctrl + 1 | Assistant |
-| Cmd/Ctrl + 2 | Projects |
-| Cmd/Ctrl + 3 | Tabular Reviews |
-| Cmd/Ctrl + 4 | Workflows |
-| Cmd/Ctrl + B | Toggle sidebar |
-| Cmd/Ctrl + J | Focus assistant prompt |
-| Cmd/Ctrl + , | Settings |
+| `Cmd/Ctrl + 1` | Assistant |
+| `Cmd/Ctrl + 2` | Projects |
+| `Cmd/Ctrl + 3` | Tabular Reviews |
+| `Cmd/Ctrl + 4` | Workflows |
+| `Cmd/Ctrl + B` | Toggle Sidebar |
+| `Cmd/Ctrl + J` | Focus Assistant Prompt |
+| `Cmd/Ctrl + ,` | Settings |
 
 ---
 
 ## Troubleshooting
 
-### `Could not find the table 'public.projects' in the schema cache`
-
-Your Supabase database does not have the Open Specter tables yet.
-
-Fix:
-
-1. Go to Supabase **SQL Editor**.
-2. Run `backend/migrations/000_one_shot_schema.sql`.
-3. Confirm `projects` appears in Table Editor.
-4. Retry creating a project or uploading a document.
-
-### Tables were created but API still says schema cache
-
-Supabase can take a moment to refresh PostgREST’s schema cache. If the error persists after running SQL:
-
-- wait a minute and retry
-- confirm the tables are in the `public` schema
-- confirm the SQL completed without errors
-
-### Uploads work locally but not in production
-
-Check your R2/S3 env vars:
-
-- `R2_ENDPOINT_URL`
-- `R2_ACCESS_KEY_ID`
-- `R2_SECRET_ACCESS_KEY`
-- `R2_BUCKET_NAME`
-
----
-
-## License
-
-GNU Affero General Public License v3.0 or later — see [`LICENSE`](./LICENSE).
-
-Copyright (c) 2026 Quantera.ai. Open Specter is provided under **AGPL-3.0** with
-strong copyleft. You may self-host, fork, and modify freely — but if you run a
-modified version as a network service, you must offer your source code to
-your users under the same license. See [`LICENSE`](./LICENSE) for full terms.
+- **Missing table or PostgREST cache error**: Ensure `backend/migrations/000_one_shot_schema.sql` was executed successfully in the `public` schema in Supabase.
+- **Upload failures in production**: Verify your R2/S3 bucket name and access keys in `backend/.env`. If unconfigured, files default to local storage at `/app/data/open-specter-storage`.
 
 ---
 
 ## Security
 
-Found a vulnerability? Please report it privately. See [`SECURITY.md`](./SECURITY.md)
-for the disclosure flow, scope, and hardening guidance for production
-deployments.
+Please report vulnerabilities privately. See [`SECURITY.md`](./SECURITY.md) for disclosure guidelines and production hardening recommendations.
 
 ---
 
-## Third-party API keys are your responsibility
+## License
 
-Open Specter integrates with paid third-party services (Supabase, Cloudflare
-R2, Gemini, Anthropic, OpenRouter, Resend, LegalDataHunter, Vaquill). Open Specter
-ships **no shared/upstream fallback** for any of them — every self-host must
-provide its own credentials in `backend/.env`. Usage of each integration is
-billed against the key holder's account; the project maintainers cannot be
-held responsible for spend on third-party APIs. The backend logs an
-integration-status summary at boot so you can see at a glance which providers
-are enabled for the current deployment.
+Distributed under the GNU Affero General Public License v3.0 (AGPL-3.0). See [`LICENSE`](./LICENSE) for terms.
 
 ---
 
@@ -364,4 +216,3 @@ Open Specter builds upon that foundation with:
 - Supabase anonymous sign-ins / Guest Mode + 7-day cleanup of orphaned accounts
 - 10+ additional legal workflow templates
 - **LegalDataHunter** integration for jurisdiction-scoped case-law and legislation retrieval with inline citations across 178 jurisdictions
-

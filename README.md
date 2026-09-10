@@ -356,22 +356,12 @@ are enabled for the current deployment.
 
 ## Credits & inspiration
 
-Open Specter is a fork of and is deeply inspired by **[Mike](https://mikeoss.com/)**
-([willchen96/mike](https://github.com/willchen96/mike)) — the original
-open-source AI legal platform created by Will Chen and contributors as an
-open alternative to Harvey and Legora.
+Open Specter is a fork of **[Mike](https://mikeoss.com/)** ([willchen96/mike](https://github.com/willchen96/mike)), released under AGPL-3.0.
 
-Massive thanks to the Mike OSS team for laying the foundation, releasing it
-under AGPL-3.0, and proving that enterprise-grade legal AI can be self-hosted
-by any firm without lock-in. Open Specter extends Mike with:
+Open Specter builds upon that foundation with:
 
-- A neutral grayscale enterprise-grade UI overhaul (Framer Motion, Apple-inspired)
+- A neutral grayscale enterprise-grade UI overhaul (Framer Motion)
 - Supabase anonymous sign-ins / Guest Mode + 7-day cleanup of orphaned accounts
 - 10+ additional legal workflow templates
-- **LegalDataHunter** integration for jurisdiction-scoped case-law and
-  legislation retrieval with inline citations across 178 jurisdictions
-
-If you use Open Specter, please **also star the upstream Mike repo** —
-[github.com/willchen96/mike](https://github.com/willchen96/mike) — it's the
-project that made all of this possible.
+- **LegalDataHunter** integration for jurisdiction-scoped case-law and legislation retrieval with inline citations across 178 jurisdictions
 

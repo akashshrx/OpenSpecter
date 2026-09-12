@@ -26,7 +26,7 @@ Maintained by **Quantera.ai**.
 | Layer | Technology |
 | --- | --- |
 | Frontend | Next.js 16, React 19, TypeScript, Tailwind CSS |
-| UI | Radix Primitives, Motion.dev, Lucide Icons |
+| UI | Radix Primitives, Lucide Icons |
 | Backend | Express + TypeScript |
 | Database & Auth | Supabase (PostgreSQL + Row Level Security) |
 | Storage | Cloudflare R2 / S3-compatible (with local disk fallback for dev) |
@@ -212,7 +212,7 @@ Open Specter is a fork of **[Mike](https://mikeoss.com/)** ([willchen96/mike](ht
 
 Open Specter builds upon that foundation with:
 
-- A neutral grayscale enterprise-grade UI overhaul (Framer Motion)
+- A neutral grayscale enterprise-grade UI overhaul
 - Supabase anonymous sign-ins / Guest Mode + 7-day cleanup of orphaned accounts
 - 10+ additional legal workflow templates
 - **LegalDataHunter** integration for jurisdiction-scoped case-law and legislation retrieval with inline citations across 178 jurisdictions

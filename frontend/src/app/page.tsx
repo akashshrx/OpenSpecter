@@ -356,12 +356,12 @@ export default function Home() {
             Source Available · Free Forever
           </div>
           <h1>
-            Law is attractive, but it shouldn&apos;t
+            Enterprise Grade Legal Work,
             <br />
-            <span className="highlight">cost millions of dollars.</span>
+            <span className="highlight">for free.</span>
           </h1>
           <p className="hero-subtitle">
-            Enterprise-grade document analysis, legal research, and contract
+            Enterprise document analysis, legal research, and contract
             review, without the $1,200/seat price tag. Free, self-hosted, and
             built by Quantera.
           </p>

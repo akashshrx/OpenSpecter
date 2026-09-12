@@ -16,9 +16,9 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
     metadataBase: new URL("https://openspecter.com"),
-    title: "OpenSpecter - Enterprise Grade Legal Work, for free.",
+    title: "Enterprise Grade Legal Work, for free.",
     description:
-        "Enterprise document analysis, legal research, and contract review, without the $1,200/seat price tag. Free, self-hosted, and built by Quantera.",
+        "Enterprise document analysis, legal research, and contract review. Free, self-hosted, and built by Quantera.",
     icons: {
         icon: [
             { url: "/icon.png", type: "image/png" },
@@ -27,9 +27,9 @@ export const metadata: Metadata = {
         apple: "/apple-touch-icon.png",
     },
     openGraph: {
-        title: "OpenSpecter - Enterprise Grade Legal Work, for free.",
+        title: "Enterprise Grade Legal Work, for free.",
         description:
-            "Enterprise document analysis, legal research, and contract review, without the $1,200/seat price tag. Free, self-hosted, and built by Quantera.",
+            "Enterprise document analysis, legal research, and contract review. Free, self-hosted, and built by Quantera.",
         url: "https://openspecter.com",
         siteName: "OpenSpecter",
         images: [
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
                 url: "/og-image.png",
                 width: 1024,
                 height: 572,
-                alt: "OpenSpecter - Enterprise Grade Legal Work, for free.",
+                alt: "Enterprise Grade Legal Work, for free.",
             },
         ],
         locale: "en_US",
@@ -45,9 +45,9 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "OpenSpecter - Enterprise Grade Legal Work, for free.",
+        title: "Enterprise Grade Legal Work, for free.",
         description:
-            "Enterprise document analysis, legal research, and contract review, without the $1,200/seat price tag. Free, self-hosted, and built by Quantera.",
+            "Enterprise document analysis, legal research, and contract review. Free, self-hosted, and built by Quantera.",
         images: ["/og-image.png"],
     },
 };

@@ -15,15 +15,40 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-    title: "Open Specter - AI Legal Platform",
+    metadataBase: new URL("https://openspecter.com"),
+    title: "OpenSpecter - Enterprise Grade Legal Work, for free.",
     description:
-        "AI-powered legal document analysis and contract review platform.",
+        "Enterprise document analysis, legal research, and contract review, without the $1,200/seat price tag. Free, self-hosted, and built by Quantera.",
     icons: {
         icon: [
             { url: "/icon.png", type: "image/png" },
             { url: "/favicon.ico" },
         ],
         apple: "/apple-touch-icon.png",
+    },
+    openGraph: {
+        title: "OpenSpecter - Enterprise Grade Legal Work, for free.",
+        description:
+            "Enterprise document analysis, legal research, and contract review, without the $1,200/seat price tag. Free, self-hosted, and built by Quantera.",
+        url: "https://openspecter.com",
+        siteName: "OpenSpecter",
+        images: [
+            {
+                url: "/og-image.png",
+                width: 1024,
+                height: 572,
+                alt: "OpenSpecter - Enterprise Grade Legal Work, for free.",
+            },
+        ],
+        locale: "en_US",
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "OpenSpecter - Enterprise Grade Legal Work, for free.",
+        description:
+            "Enterprise document analysis, legal research, and contract review, without the $1,200/seat price tag. Free, self-hosted, and built by Quantera.",
+        images: ["/og-image.png"],
     },
 };
 
